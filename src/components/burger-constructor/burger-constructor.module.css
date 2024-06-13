@@ -1,13 +1,14 @@
 .lockIngredient {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: start;
   padding: 0 16px;
 }
 
 .ingredient {
   position: relative;
   padding-left: 48px;
+  width: 100%;
 }
 
 .dragButton {
@@ -31,8 +32,8 @@
 .ingredients {
   display: flex;
   flex-direction: column;
-  align-items: end;
-  gap: 16px;
+  align-items: start;
+  row-gap: 16px;
   padding: 16px 0;
 }
 

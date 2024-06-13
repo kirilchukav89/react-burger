@@ -1,3 +1,8 @@
+.tabs {
+  display: flex;
+  flex-direction: row;
+}
+
 .wrapper {
   display: block;
   overflow-y: auto;

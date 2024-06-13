@@ -1,109 +1,47 @@
-import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import { ingredientType } from '../../utils/types';
+import { useModal } from '../../hooks/useModal';
 
-const BurgerConstructor = () => {
-  const [visibleModal, setVisibleModal] = useState(false);
+const BurgerConstructor = ({ ingredients }) => {
+  const { isModalOpen, openModal, closeModal } = useModal();
   return (
     <>
-      <Modal visibleModal={visibleModal} setVisibleModal={setVisibleModal}>
-        <OrderDetails/>
-      </Modal>
+      {
+        isModalOpen && <Modal closeModal={closeModal}>
+          <OrderDetails/>
+        </Modal>
+      }
       <div className={`${styles.lockIngredient} mt-25`}>
         <div className={styles.ingredient}>
           <ConstructorElement
             type="top"
             isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+            text={`${ingredients[0].name} (верх)`}
+            price={ingredients[0].price}
+            thumbnail={ingredients[0].image_mobile}
           />
         </div>
       </div>
       <div className={`${styles.ingredientsWrapper} customScroll`}>
         <div className={styles.ingredients}>
-          <div className={styles.ingredient}>
-            <button type="button" className={styles.dragButton}>
-              <DragIcon type="primary"/>
-            </button>
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
-          <div className={styles.ingredient}>
-            <button type="button" className={styles.dragButton}>
-              <DragIcon type="primary"/>
-            </button>
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
-          <div className={styles.ingredient}>
-            <button type="button" className={styles.dragButton}>
-              <DragIcon type="primary"/>
-            </button>
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
-          <div className={styles.ingredient}>
-            <button type="button" className={styles.dragButton}>
-              <DragIcon type="primary"/>
-            </button>
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
-          <div className={styles.ingredient}>
-            <button type="button" className={styles.dragButton}>
-              <DragIcon type="primary"/>
-            </button>
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
-          <div className={styles.ingredient}>
-            <button type="button" className={styles.dragButton}>
-              <DragIcon type="primary"/>
-            </button>
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
-          <div className={styles.ingredient}>
-            <button type="button" className={styles.dragButton}>
-              <DragIcon type="primary"/>
-            </button>
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
-          <div className={styles.ingredient}>
-            <button type="button" className={styles.dragButton}>
-              <DragIcon type="primary"/>
-            </button>
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
-            />
-          </div>
+          {
+            ingredients.map((ingredient, index) => (
+              (ingredient.type !== 'bun') && <div className={styles.ingredient} key={index}>
+                <button type="button" className={styles.dragButton}>
+                  <DragIcon type="primary"/>
+                </button>
+                <ConstructorElement
+                  text={ingredient.name}
+                  price={ingredient.price}
+                  thumbnail={ingredient.image_mobile}
+                />
+              </div>
+            ))
+          }
         </div>
       </div>
       <div className={styles.lockIngredient}>
@@ -111,9 +49,9 @@ const BurgerConstructor = () => {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
+            text={`${ingredients[0].name} (низ)`}
+            price={ingredients[0].price}
+            thumbnail={ingredients[0].image_mobile}
           />
         </div>
       </div>
@@ -126,12 +64,18 @@ const BurgerConstructor = () => {
             <CurrencyIcon type="primary"/>
           </span>
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={() => setVisibleModal(true)}>
+        <Button htmlType="button" type="primary" size="large" onClick={() => openModal()}>
           Оформить заказ
         </Button>
       </div>
     </>
   )
 }
+
+BurgerConstructor.propTypes = {
+  ingredients: PropTypes.arrayOf(
+    PropTypes.shape(ingredientType)
+  )
+}; 
 
 export default BurgerConstructor;

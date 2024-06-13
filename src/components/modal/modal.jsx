@@ -7,25 +7,25 @@ import { Button, CloseIcon } from '@ya.praktikum/react-developer-burger-ui-compo
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = ({ children, modalHeader, visibleModal, setVisibleModal }) => {
+const Modal = ({ children, modalHeader, closeModal }) => {
   useEffect(() => {
-    const close = (e) => {
-      if(e.keyCode === 27){
-        setVisibleModal(false)
+    const close = (event) => {
+      if(event.key === "Escape"){
+        closeModal();
       }
     }
     window.addEventListener('keydown', close)
     return () => window.removeEventListener('keydown', close)
   },[])
 
-  return visibleModal && ReactDOM.createPortal(
+  return ReactDOM.createPortal(
     <div className={styles.wrapper}>
-      <ModalOverlay setVisibleModal={setVisibleModal} />
+      <ModalOverlay closeModal={closeModal} />
       <div className={styles.container}>
         <div className={`${styles.header} text text_type_main-large`}>
           {modalHeader}
         </div>
-        <Button htmlType="button" type="secondary" extraClass={styles.closeButton} onClick={() => setVisibleModal(false)}>
+        <Button htmlType="button" type="secondary" extraClass={styles.closeButton} onClick={() => closeModal()}>
           <CloseIcon type="primary"/>
         </Button>
         <div className={styles.content}>
@@ -39,8 +39,7 @@ const Modal = ({ children, modalHeader, visibleModal, setVisibleModal }) => {
 Modal.propTypes = {
   children: PropTypes.any,
   modalHeader: PropTypes.string,
-  visibleModal: PropTypes.bool.isRequired,
-  setVisibleModal: PropTypes.func.isRequired
+  closeModal: PropTypes.func.isRequired
 }; 
 
 export default Modal;

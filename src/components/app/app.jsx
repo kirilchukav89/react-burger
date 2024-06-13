@@ -10,15 +10,20 @@ function App() {
   const [state, setState] = useState({ 
     ingredients: null,
     loading: true,
-    hasError: false
+    hasError: false,
+    errorType: null
   })
 
   useEffect(() => {
     const getProductData = async () => {
-      fetch(API)
-        .then(res => res.json())
-        .then(data => setState({ ...state, ingredients: data.data, loading: false }))
-        .catch(e => setState({ ...state, loading: false, hasError: true }))
+      fetch(API).then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
+      .then(data => setState({ ...state, ingredients: data.data, loading: false }))
+      .catch(error => setState({ ...state, loading: false, hasError: true, errorType: error }))
     }
     getProductData();
   }, [])
@@ -31,7 +36,7 @@ function App() {
           {!state.loading && !state.hasError && <BurgerIngredients ingredients={state.ingredients} />}
         </section>
         <section className={styles.mainSectionCol}>
-          <BurgerConstructor />
+        {!state.loading && !state.hasError && <BurgerConstructor ingredients={state.ingredients} />}
         </section>
       </main>
     </>

@@ -4,15 +4,19 @@ import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger
 import styles from './burger-ingredients.module.css';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { ingredientType } from '../../utils/types';
+import { useModal } from '../../hooks/useModal';
 
 const IngredientCard = ({ ingredient, count = null }) => {
-  const [visibleModal, setVisibleModal] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
   return (
     <>
-      <Modal modalHeader='Детали ингредиента' visibleModal={visibleModal} setVisibleModal={setVisibleModal}>
-        <IngredientDetails ingredient={ingredient}/>
-      </Modal>
-      <li className={styles.card} onClick={() => setVisibleModal(true)}>
+      {
+        isModalOpen &&  <Modal modalHeader='Детали ингредиента' closeModal={closeModal}>
+          <IngredientDetails ingredient={ingredient}/>
+        </Modal>
+      }
+      <li className={styles.card} onClick={() => openModal()}>
         <div className={styles.img}>
           <img src={ingredient.image} alt={ingredient.name}/>
         </div>
@@ -34,20 +38,7 @@ const IngredientCard = ({ ingredient, count = null }) => {
 };
 
 IngredientCard.propTypes = {
-  ingredient: PropTypes.shape({
-    calories: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    fat: PropTypes.number,
-    image: PropTypes.string,
-    image_large: PropTypes.string,
-    image_mobile: PropTypes.string,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    proteins: PropTypes.number,
-    type: PropTypes.string,
-    __v: PropTypes.number,
-    _id: PropTypes.string
-  }),
+  ingredient: PropTypes.shape(ingredientType),
   count: PropTypes.number
 }; 
 
@@ -58,7 +49,7 @@ const BurgerIngredients = ({ingredients}) => {
       <h1 className="text text_type_main-large mt-10">
         Соберите бургер
       </h1>
-      <div style={{ display: 'flex' }} className="mt-5">
+      <div className={`${styles.tabs} mt-5`}>
         <Tab value="one" active={current === 'one'} onClick={setCurrent}>
           Булки
         </Tab>
@@ -113,20 +104,7 @@ const BurgerIngredients = ({ingredients}) => {
 
 BurgerIngredients.propTypes = {
   ingredients: PropTypes.arrayOf(
-    PropTypes.shape({
-      calories: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      fat: PropTypes.number,
-      image: PropTypes.string,
-      image_large: PropTypes.string,
-      image_mobile: PropTypes.string,
-      name: PropTypes.string,
-      price: PropTypes.number,
-      proteins: PropTypes.number,
-      type: PropTypes.string,
-      __v: PropTypes.number,
-      _id: PropTypes.string
-    })
+    PropTypes.shape(ingredientType)
   )
 }; 
 
