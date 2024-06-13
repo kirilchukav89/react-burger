@@ -1,9 +1,16 @@
+import { useState } from 'react';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
 
 const BurgerConstructor = () => {
+  const [visibleModal, setVisibleModal] = useState(false);
   return (
     <>
+      <Modal visibleModal={visibleModal} setVisibleModal={setVisibleModal}>
+        <OrderDetails/>
+      </Modal>
       <div className={`${styles.lockIngredient} mt-25`}>
         <div className={styles.ingredient}>
           <ConstructorElement
@@ -119,7 +126,7 @@ const BurgerConstructor = () => {
             <CurrencyIcon type="primary"/>
           </span>
         </div>
-        <Button htmlType="button" type="primary" size="large">
+        <Button htmlType="button" type="primary" size="large" onClick={() => setVisibleModal(true)}>
           Оформить заказ
         </Button>
       </div>

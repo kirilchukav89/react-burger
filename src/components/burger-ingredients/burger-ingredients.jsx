@@ -1,29 +1,58 @@
-import React from 'react';
+import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
-const IngredientCard = ({ingredient, count=false}) => (
-  <li className={styles.card}>
-    <div className={styles.img}>
-      <img src={ingredient.image} alt={ingredient.name}/>
-    </div>
-    <div className={`${styles.cost} mt-1 mb-1`}>
-      <span className="text text_type_digits-default mr-2">
-        {ingredient.price}
-      </span>
-      <span className={styles.costIcon}>
-        <CurrencyIcon type="primary"/>
-      </span>
-    </div>
-    <p className="text text_type_main-default mt-1">
-      {ingredient.name}
-    </p>
-    {count && <Counter count={count} size="default" extraClass="m-1" />}
-  </li>
-);
+const IngredientCard = ({ ingredient, count = null }) => {
+  const [visibleModal, setVisibleModal] = useState(false);
+  return (
+    <>
+      <Modal modalHeader='Детали ингредиента' visibleModal={visibleModal} setVisibleModal={setVisibleModal}>
+        <IngredientDetails ingredient={ingredient}/>
+      </Modal>
+      <li className={styles.card} onClick={() => setVisibleModal(true)}>
+        <div className={styles.img}>
+          <img src={ingredient.image} alt={ingredient.name}/>
+        </div>
+        <div className={`${styles.cost} mt-1 mb-1`}>
+          <span className="text text_type_digits-default mr-2">
+            {ingredient.price}
+          </span>
+          <span className={styles.costIcon}>
+            <CurrencyIcon type="primary"/>
+          </span>
+        </div>
+        <p className="text text_type_main-default mt-1">
+          {ingredient.name}
+        </p>
+        {count && <Counter count={count} size="default" extraClass="m-1" />}
+      </li>
+    </>
+  )
+};
+
+IngredientCard.propTypes = {
+  ingredient: PropTypes.shape({
+    calories: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    fat: PropTypes.number,
+    image: PropTypes.string,
+    image_large: PropTypes.string,
+    image_mobile: PropTypes.string,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    proteins: PropTypes.number,
+    type: PropTypes.string,
+    __v: PropTypes.number,
+    _id: PropTypes.string
+  }),
+  count: PropTypes.number
+}; 
 
 const BurgerIngredients = ({ingredients}) => {
-  const [current, setCurrent] = React.useState('one');
+  const [current, setCurrent] = useState('one');
   return (
     <>
       <h1 className="text text_type_main-large mt-10">
@@ -81,5 +110,24 @@ const BurgerIngredients = ({ingredients}) => {
     </>
   )
 }
+
+BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(
+    PropTypes.shape({
+      calories: PropTypes.number,
+      carbohydrates: PropTypes.number,
+      fat: PropTypes.number,
+      image: PropTypes.string,
+      image_large: PropTypes.string,
+      image_mobile: PropTypes.string,
+      name: PropTypes.string,
+      price: PropTypes.number,
+      proteins: PropTypes.number,
+      type: PropTypes.string,
+      __v: PropTypes.number,
+      _id: PropTypes.string
+    })
+  )
+}; 
 
 export default BurgerIngredients;

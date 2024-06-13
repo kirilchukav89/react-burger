@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -7,13 +7,13 @@ import styles from './app.module.css';
 const API = 'https://norma.nomoreparties.space/api/ingredients';
 
 function App() {
-  const [state, setState] = React.useState({ 
+  const [state, setState] = useState({ 
     ingredients: null,
     loading: true,
     hasError: false
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     const getProductData = async () => {
       fetch(API)
         .then(res => res.json())
@@ -22,6 +22,7 @@ function App() {
     }
     getProductData();
   }, [])
+
   return (
     <>
       <AppHeader />
