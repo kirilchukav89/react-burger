@@ -1,0 +1,54 @@
+.header {
+  width: 100%;
+}
+
+.headerContainer {
+  position: relative;
+  max-width: 1280px;
+  height: 88px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.logoWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.buttonWrapper {
+  z-index: 1;
+}
+
+.button {
+  color: #8585AD;
+  svg {
+    transition: .3s ease-in;
+  }
+}
+
+.button:hover {
+  color: #F2F2F2;
+  svg {
+    fill: #F2F2F2;
+  }
+}
+
+.buttonActive {
+  color: #F2F2F2;
+  svg {
+    fill: #F2F2F2;
+  }
+}
+
+.buttonIcon {
+  display: inline-block;
+  height: 1.5em;
+  vertical-align: bottom;
+}

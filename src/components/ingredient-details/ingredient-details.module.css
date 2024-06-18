@@ -1,0 +1,11 @@
+.ingredientTitle {
+  text-align: center;
+}
+
+.ingredientInfo {
+  display: flex;
+  align-self: stretch;
+  text-align: center;
+  column-gap: 20px;
+  color: #8585AD;
+}
