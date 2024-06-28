@@ -43,7 +43,7 @@ IngredientCard.propTypes = {
   count: PropTypes.number
 }; 
 
-const BurgerIngredients = ({ingredients}) => {
+const BurgerIngredients = ({ ingredients }) => {
   const [current, setCurrent] = useState('one');
   return (
     <>

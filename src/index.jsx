@@ -4,25 +4,23 @@ import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './components/app/app';
+import { rootReducer } from './services/reducers';
+import { allIngredients } from './services/reducers/all-ingredients';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const preloadedState = {
+const preloadState = {
   allIngredients: [],
-  currentIngredients: [],
-  viewIngredient: {},
+  constructorIngredients: [],
+  currentIngredient: {},
   order: {}
-};
-
-const reducer = (state, action) => {
-
 }
 
 const store = configureStore({
-  reducer,
+  reducer: rootReducer,
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
   devTools: process.env.NODE_ENV !== 'production',
-  preloadedState
+  preloadState
 });
 
 root.render(
