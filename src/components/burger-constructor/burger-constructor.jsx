@@ -1,14 +1,26 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-constructor.module.css';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import { ingredientType } from '../../utils/types';
 import { useModal } from '../../hooks/useModal';
+import { getOrder } from '../../services/actions';
 
 const BurgerConstructor = ({ ingredients }) => {
   const { isModalOpen, openModal, closeModal } = useModal();
+  const { data } = useSelector(store => store.constructorIngredients);
+  const dispatch = useDispatch();
+
+  const handleClickOnOrderButton = () => {
+    let orderList = data.map(ingredient => {
+      return ingredient._id
+    })
+    openModal();
+    dispatch(getOrder(orderList));
+  }
+
   return (
     <>
       {
@@ -65,7 +77,7 @@ const BurgerConstructor = ({ ingredients }) => {
             <CurrencyIcon type="primary"/>
           </span>
         </div>
-        <Button htmlType="button" type="primary" size="large" onClick={() => openModal()}>
+        <Button disabled={!data.length} htmlType="button" type="primary" size="large" onClick={() => handleClickOnOrderButton()}>
           Оформить заказ
         </Button>
       </div>

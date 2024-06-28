@@ -4,25 +4,22 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import styles from './app.module.css';
-import { getIngredients } from '../../services/actions';
-
-const API = 'https://norma.nomoreparties.space/api/ingredients';
 
 function App() {
   const { data, loading, hasError } = useSelector(store => store.allIngredients);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getIngredients());
+  // useEffect(() => {
+  //   dispatch(getIngredients());
 
-  }, []);
+  // }, []);
 
   return (
     <>
       <AppHeader />
       <main className={styles.mainSection}>
         <section className={styles.mainSectionCol}>
-          {!loading && !hasError && <BurgerIngredients ingredients={data} />}
+          <BurgerIngredients/>
         </section>
         <section className={styles.mainSectionCol}>
         {!loading && !hasError && <BurgerConstructor ingredients={data} />}

@@ -8,7 +8,7 @@ const initialState = {
   data: [],
   loading: true,
   hasError: false,
-  errorType: ''
+  errorType: null
 }
 
 export const allIngredients = (state = initialState, action) => {
