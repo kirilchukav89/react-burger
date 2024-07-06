@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { useDrag } from "react-dnd";
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './ingredient-card.module.css';
 import Modal from '../modal/modal';
@@ -11,6 +12,10 @@ import { setCurrentIngredient } from '../../services/actions';
 const IngredientCard = ({ ingredient, count = 0 }) => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useDispatch();
+  const [, dragRef, dragPreviewRef] = useDrag({
+    type: "ingredient",
+    item: ingredient
+  });
 
   const handleClickOnCard = () => {
     dispatch(setCurrentIngredient(ingredient));
@@ -24,9 +29,9 @@ const IngredientCard = ({ ingredient, count = 0 }) => {
           <IngredientDetails/>
         </Modal>
       }
-      <li className={styles.card} onClick={() => handleClickOnCard()}>
+      <li ref={dragRef} className={styles.card} onClick={() => handleClickOnCard()}>
         <div className={styles.img}>
-          <img src={ingredient.image} alt={ingredient.name}/>
+          <img ref={dragPreviewRef} src={ingredient.image} alt={ingredient.name}/>
         </div>
         <div className={`${styles.cost} mt-1 mb-1`}>
           <span className="text text_type_digits-default mr-2">
@@ -39,7 +44,7 @@ const IngredientCard = ({ ingredient, count = 0 }) => {
         <p className="text text_type_main-default mt-1">
           {ingredient.name}
         </p>
-        {count && <Counter count={count} size="default" extraClass="m-1" />}
+        {(count > 0) && <Counter count={count} size="default" extraClass="m-1" />}
       </li>
     </>
   )

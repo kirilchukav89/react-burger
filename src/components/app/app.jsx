@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -18,12 +20,14 @@ function App() {
     <>
       <AppHeader />
       <main className={styles.mainSection}>
-        <section className={styles.mainSectionCol}>
-          <BurgerIngredients/>
-        </section>
-        <section className={styles.mainSectionCol}>
-        {!loading && !hasError && <BurgerConstructor ingredients={data} />}
-        </section>
+        <DndProvider backend={HTML5Backend}>
+          <section className={styles.mainSectionCol}>
+            <BurgerIngredients/>
+          </section>
+          <section className={styles.mainSectionCol}>
+          {!loading && !hasError && <BurgerConstructor ingredients={data} />}
+          </section>
+        </DndProvider>
       </main>
     </>
   );

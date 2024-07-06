@@ -11,6 +11,10 @@ export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
 export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
 export const GET_ORDER_ERROR = 'GET_ORDER_ERROR';
 
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
+export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
+
 export function getIngredients() {
   return function(dispatch) {
     dispatch({
@@ -81,3 +85,18 @@ export function getOrder(orderIngredients = []) {
       })
   }
 }
+
+export const addIngredient = (ingredient) => ({
+  type: ADD_INGREDIENT,
+  data: ingredient
+})
+
+export const removeIngredient = (index) => ({
+  type: REMOVE_INGREDIENT,
+  data: index
+})
+
+export const moveIngredient = (items) => ({
+  type: MOVE_INGREDIENT,
+  data: items
+})
