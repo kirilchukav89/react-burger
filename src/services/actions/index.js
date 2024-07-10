@@ -1,4 +1,5 @@
-import { API_INGREDIENTS, API_ORDER } from "../../utils/api";
+import { request } from "../../utils/api";
+import { v4 as uuidv4 } from 'uuid';
 
 export const GET_INGREDIENTS_REQUEST = 'GET_INGREDIENTS_REQUEST';
 export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
@@ -14,20 +15,22 @@ export const GET_ORDER_ERROR = 'GET_ORDER_ERROR';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
 export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
+export const RESET_CONSTRUCTOR = 'RESET_CONSTRUCTOR';
 
 export function getIngredients() {
   return function(dispatch) {
     dispatch({
       type: GET_INGREDIENTS_REQUEST
     });
-    fetch(API_INGREDIENTS)
-      .then(res  => {
-        if (res && res.ok) {
-          return res.json();
-        } else {
-          return Promise.reject(res.status);
-        }
-      })
+    // fetch(`${API_BASE_URL}/ingredients`)
+    //   .then(res  => {
+    //     if (res && res.ok) {
+    //       return res.json();
+    //     } else {
+    //       return Promise.reject(res.status);
+    //     }
+    //   })
+    request('/ingredients')
       .then(data => {
         dispatch({
           type: GET_INGREDIENTS_SUCCESS,
@@ -53,7 +56,7 @@ export function getOrder(orderIngredients = []) {
     dispatch({
       type: GET_ORDER_REQUEST
     });
-    fetch(API_ORDER, {
+    request('/orders', {
         method: 'POST',
         body: JSON.stringify({
           ingredients: orderIngredients
@@ -61,23 +64,17 @@ export function getOrder(orderIngredients = []) {
         headers: {
           'Content-type': 'application/json; charset=UTF-8'
         }
-    })
-      .then(res  => {
-        if (res && res.ok) {
-          return res.json();
-        } else {
-          return Promise.reject(res.status);
-        }
       })
       .then(data => {
-        console.log(data);
         dispatch({
           type: GET_ORDER_SUCCESS,
           data: data
+        }),
+        dispatch({
+          type: RESET_CONSTRUCTOR
         })
       })
       .catch(err => {
-        console.log(err);
         dispatch({
           type: GET_ORDER_ERROR,
           data: err
@@ -88,7 +85,10 @@ export function getOrder(orderIngredients = []) {
 
 export const addIngredient = (ingredient) => ({
   type: ADD_INGREDIENT,
-  data: ingredient
+  data: {
+    ...ingredient,
+    uniqueId: uuidv4()
+  }
 })
 
 export const removeIngredient = (index) => ({

@@ -37,9 +37,7 @@ export const order = (state = initialState, action) => {
       };
     }
     default: {
-      return {
-        ...state
-      }
+      return state;
     }
   }
 }

@@ -37,9 +37,7 @@ export const allIngredients = (state = initialState, action) => {
       };
     }
     default: {
-      return {
-        ...state
-      }
+      return state;
     }
   }
 }

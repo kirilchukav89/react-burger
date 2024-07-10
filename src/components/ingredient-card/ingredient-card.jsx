@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useDrag } from "react-dnd";
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './ingredient-card.module.css';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { ingredientType } from '../../utils/types';
 import { useModal } from '../../hooks/useModal';
 import { setCurrentIngredient } from '../../services/actions';
 
-const IngredientCard = ({ ingredient, count = 0 }) => {
+const IngredientCard = ({ index }) => {
   const { isModalOpen, openModal, closeModal } = useModal();
+  const ingredient = useSelector(store => store.allIngredients.data[index]);
+  const constructorData = useSelector(store => store.constructorIngredients.data);
   const dispatch = useDispatch();
   const [, dragRef, dragPreviewRef] = useDrag({
     type: "ingredient",
@@ -21,6 +22,13 @@ const IngredientCard = ({ ingredient, count = 0 }) => {
     dispatch(setCurrentIngredient(ingredient));
     openModal();
   }
+
+  let count = 0;
+  constructorData.map((item) => {
+    if (ingredient._id === item._id) {
+      count = (item.type === 'bun') ? count + 2 : ++count;
+    }
+  });
 
   return (
     <>
@@ -51,7 +59,6 @@ const IngredientCard = ({ ingredient, count = 0 }) => {
 };
 
 IngredientCard.propTypes = {
-  ingredient: PropTypes.shape(ingredientType),
   count: PropTypes.number
 };
 

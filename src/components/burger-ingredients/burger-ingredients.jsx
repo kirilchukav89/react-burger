@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import IngredientCard from '../ingredient-card/ingredient-card';
-import { getIngredients } from '../../services/actions';
 
 const BurgerIngredients = () => {
   const [current, setCurrent] = useState('bun');
@@ -12,12 +11,6 @@ const BurgerIngredients = () => {
   const sauseTabRef = useRef();
   const mainTabRef = useRef();
   const { data, loading, hasError } = useSelector(store => store.allIngredients);
-  const constructorData = useSelector(store => store.constructorIngredients.data);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, []);
 
   const onScrollTabWrapper = () => {
     const wrapperScroll = tabsWrapperRef.current.scrollTop; 
@@ -80,15 +73,9 @@ const BurgerIngredients = () => {
             <div className="pt-6 pb-2 pl-1 pr-1">
               <div className={`${styles.cardWrapper} mb-8 pr-3 pl-3`}>
                 {
-                  data.map((ingredient) => {
-                    let count = 0;
+                  data.map((ingredient, index) => {
                     if (ingredient.type==='bun') {
-                      constructorData.map((item) => {
-                        if (ingredient._id === item._id) {
-                          count= count + 2;
-                        }
-                      })
-                      return <IngredientCard ingredient={ingredient} count={count} key={ingredient._id}/>
+                      return <IngredientCard index={index} key={ingredient._id}/>
                     }
                   })
                 }
@@ -100,15 +87,9 @@ const BurgerIngredients = () => {
             <div className="pt-6 pb-2 pl-1 pr-1">
               <div className={`${styles.cardWrapper} mb-8 pr-3 pl-3`}>
                 {
-                  data.map((ingredient) => {
-                    let count = 0;
+                  data.map((ingredient, index) => {
                     if (ingredient.type==='sauce') {
-                      constructorData.map((item) => {
-                        if (ingredient._id === item._id) {
-                          count++;
-                        }
-                      })
-                      return <IngredientCard ingredient={ingredient} count={count} key={ingredient._id}/>
+                      return <IngredientCard index={index} key={ingredient._id}/>
                     }
                   })
                 }
@@ -120,15 +101,9 @@ const BurgerIngredients = () => {
             <div className="pt-6 pb-2 pl-1 pr-1">
               <ul className={`${styles.cardWrapper} mb-8 pr-3 pl-3`}>
                 {
-                  data.map((ingredient) => {
-                    let count = 0;
+                  data.map((ingredient, index) => {
                     if (ingredient.type==='main') {
-                      constructorData.map((item) => {
-                        if (ingredient._id === item._id) {
-                          count++;
-                        }
-                      })
-                      return <IngredientCard ingredient={ingredient} count={count} key={ingredient._id}/>
+                      return <IngredientCard index={index} key={ingredient._id}/>
                     }
                   })
                 }

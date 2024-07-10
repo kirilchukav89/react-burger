@@ -9,3 +9,7 @@
   column-gap: 20px;
   color: #8585AD;
 }
+
+.ingredientInfo > span {
+  flex: 1 1 25%;
+}

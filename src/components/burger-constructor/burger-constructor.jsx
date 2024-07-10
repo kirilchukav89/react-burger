@@ -6,8 +6,7 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import ConstructorItem from '../constructor-item/constructor-item';
 import { useModal } from '../../hooks/useModal';
-import { getOrder } from '../../services/actions';
-import { addIngredient } from '../../services/actions';
+import { getOrder, addIngredient } from '../../services/actions';
 
 const BurgerConstructor = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -66,7 +65,7 @@ const BurgerConstructor = () => {
         <div className={styles.ingredients}>
           {
             data.map((ingredient, index) => (
-              (ingredient.type !== 'bun') && <ConstructorItem ingredient={ingredient} index={index} key={index}/>
+              (ingredient.type !== 'bun') && <ConstructorItem index={index} key={ingredient.uniqueId}/>
             ))
           }
         </div>

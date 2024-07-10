@@ -1,7 +1,8 @@
 import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
-  MOVE_INGREDIENT
+  MOVE_INGREDIENT,
+  RESET_CONSTRUCTOR
 } from '../actions';
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
 export const constructorIngredients = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
+      console.log(action.data.uniqueId);
       if (action.data.type === 'bun') {
         let isBun = state.data.find((item) => item.type == 'bun');
         return {
@@ -53,10 +55,11 @@ export const constructorIngredients = (state = initialState, action) => {
         }
       }
     }
+    case RESET_CONSTRUCTOR: {
+      return initialState
+    }
     default: {
-      return {
-        ...state
-      }
+      return state;
     }
   }
 }

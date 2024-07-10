@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useDrag, useDrop } from "react-dnd";
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './constructor-item.module.css';
 import { removeIngredient, moveIngredient } from '../../services/actions';
-import { ingredientType } from '../../utils/types';
 
-const ConstructorItem = ({ ingredient, index }) => {
+const ConstructorItem = ({ index }) => {
+  const ingredient = useSelector(store => store.constructorIngredients.data[index]);
   const dispatch = useDispatch();
   const [{ isDrag }, dragRef, dragPreviewRef] = useDrag({
     type: "constructor-item",
@@ -49,7 +49,6 @@ const ConstructorItem = ({ ingredient, index }) => {
 }
 
 ConstructorItem.propTypes = {
-  ingredient: PropTypes.shape(ingredientType),
   index: PropTypes.number
 };
 

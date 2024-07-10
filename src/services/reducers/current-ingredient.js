@@ -22,9 +22,7 @@ export const currentIngredient = (state = initialState, action) => {
       };
     }
     default: {
-      return {
-        ...state
-      }
+      return state;
     }
   }
 }

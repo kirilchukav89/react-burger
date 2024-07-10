@@ -10,7 +10,7 @@ const OrderDetails = () => {
       :
       (!loading && hasError)
       ?
-      <div className="text text_type_main-medium mt-8">Ошибка оформления заказа</div>
+      <div className="text text_type_main-medium mt-8">Ошибка оформления заказа ({errorType})</div>
       :
       <>
         <div className="text text_type_digits-large mt-30">{data.order.number}</div>
