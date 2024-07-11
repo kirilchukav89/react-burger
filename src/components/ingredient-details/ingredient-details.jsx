@@ -1,37 +1,32 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import styles from './ingredient-details.module.css';
-import { ingredientType } from '../../utils/types';
 
-const IngredientDetails = ({ ingredient }) => {
+const IngredientDetails = () => {
+  const { data } = useSelector(store => store.currentIngredient);
   return (
     <>
-      <img src={ingredient.image_large} alt={ingredient.name}/>
-        <div className={`text text_type_main-medium mt-4 ${styles.ingredientTitle}`}>{ingredient.name}</div>
+      <img src={data.image_large} alt={data.name}/>
+        <div className={`text text_type_main-medium mt-4 ${styles.ingredientTitle}`}>{data.name}</div>
         <div className={`mt-8 ${styles.ingredientInfo}`}>
-          <span style={{ flex: '1 1 25%'}}>
+          <span>
             <div className="text text_type_main-small">Калории, ккал</div>
-            <div className="text text_type_digits-default">{ingredient.calories}</div>
+            <div className="text text_type_digits-default">{data.calories}</div>
           </span>
-          <span style={{ flex: '1 1 25%'}}>
+          <span>
             <div className="text text_type_main-small">Белки, г</div>
-            <div className="text text_type_digits-default">{ingredient.proteins}</div>
+            <div className="text text_type_digits-default">{data.proteins}</div>
           </span>
-          <span style={{ flex: '1 1 25%'}}>
+          <span>
             <div className="text text_type_main-small">Жиры, г</div>
-            <div className="text text_type_digits-default">{ingredient.fat}</div>
+            <div className="text text_type_digits-default">{data.fat}</div>
           </span>
-          <span style={{ flex: '1 1 25%'}}>
+          <span>
             <div className="text text_type_main-small">Углеводы, г</div>
-            <div className="text text_type_digits-default">{ingredient.carbohydrates}</div>
+            <div className="text text_type_digits-default">{data.carbohydrates}</div>
           </span>
         </div>
     </>
   )
-};
-
-IngredientDetails.propTypes = {
-  ingredient: PropTypes.shape(ingredientType)
 };
 
 export default IngredientDetails;
