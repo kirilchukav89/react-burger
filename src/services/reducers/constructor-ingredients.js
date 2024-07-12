@@ -13,7 +13,6 @@ const initialState = {
 export const constructorIngredients = (state = initialState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
-      console.log(action.data.uniqueId);
       if (action.data.type === 'bun') {
         let isBun = state.data.find((item) => item.type == 'bun');
         return {

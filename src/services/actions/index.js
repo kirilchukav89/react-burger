@@ -22,14 +22,6 @@ export function getIngredients() {
     dispatch({
       type: GET_INGREDIENTS_REQUEST
     });
-    // fetch(`${API_BASE_URL}/ingredients`)
-    //   .then(res  => {
-    //     if (res && res.ok) {
-    //       return res.json();
-    //     } else {
-    //       return Promise.reject(res.status);
-    //     }
-    //   })
     request('/ingredients')
       .then(data => {
         dispatch({
